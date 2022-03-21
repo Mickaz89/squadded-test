@@ -1,14 +1,17 @@
 <template>
-  <Card msg="Welcome to Your Vue.js App"/>
+  <PostsList msg="Welcome to Your Vue.js App" />
 </template>
 
 <script>
-import Card from './components/Card.vue';
+import PostCard from './components/PostCard.vue';
+import PostsList from './components/PostsList.vue';
 
 export default {
   name: 'App',
   components: {
-    Card,
+    // eslint-disable-next-line vue/no-unused-components
+    PostCard,
+    PostsList,
   },
 };
 </script>
