@@ -58,15 +58,14 @@
 
       <!-- Comments list -->
       <div class="flex flex-col">
+        <!-- Display only First comment -->
         <div v-if="!toogled(post.id)">
-          <div class="flex flex-row ml-2">
-            <h4 class="font-bold mr-2">
-              {{ post.comments[0].username }}
-            </h4>
-            <p>{{ post.comments[0].content }}</p>
-          </div>
+          <PostComment :comment="post.comments[0]" />
           <div>
-            <button @click.prevent="toogleComments(post.id)" class="flex flex-row ml-2" >
+            <button
+              class="flex flex-row ml-2"
+              @click.prevent="toogleComments(post.id)"
+            >
               <p class="text-slate-400">
                 View all {{ post.comments.length }} comments
               </p>
@@ -74,25 +73,23 @@
           </div>
         </div>
         <!-- All comments  -->
-        <div v-if="toogled(post.id)" v-for="comment in post.comments">
-          <div class="flex flex-row ml-2">
-            <h4 class="font-bold mr-2">
-              {{ comment.username }}
-            </h4>
-            <p>{{ comment.content }}</p>
-          </div>
+        <div
+          v-for="comment in post.comments"
+          v-if="toogled(post.id)"
+        >
+          <PostComment :comment="comment" />
         </div>
       </div>
       <hr class="mt-2 mb-2">
       <div class="flex flex-row mr-2 ml-2 ">
         <input
+          v-model="commentInput"
           class="container outline-none"
           placeholder="Add a comment..."
-          v-model="comment"
         >
         <button @click.prevent="addComment(post.id)">
           Publish
-          </button>
+        </button>
       </div>
     </div>
   </div>
@@ -101,6 +98,8 @@
 <script>
 import { HeartIcon as HeartIconSolid, ChatAlt2Icon as ChatAlt2IconSolid } from '@heroicons/vue/solid';
 import { HeartIcon as HeartIconOutline, ChatAlt2Icon as ChatAlt2IconOutline } from '@heroicons/vue/outline';
+
+import PostComment from './PostComment.vue';
 
 export default {
   name: 'PostCard',
@@ -111,9 +110,11 @@ export default {
     HeartIconOutline,
     // eslint-disable-next-line vue/no-unused-components
     ChatAlt2IconOutline,
+    PostComment,
   },
   props: {
     post: { options: Object },
+    comment: Object,
   },
   computed: {
     posts() {
@@ -136,14 +137,11 @@ export default {
       this.$store.commit('showAllComments', postId);
     },
     addComment(postId) {
-      console.log("comment ", this.comment);
-      this.$store.commit('addComment', { postId, comment: this.comment });
-      this.comment = "";
+      console.log('comment ', this.commentInput);
+      this.$store.commit('addComment', { postId, comment: this.commentInput });
+      this.commentInput = '';
     },
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-</style>
