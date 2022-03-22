@@ -88,8 +88,11 @@
         <input
           class="container outline-none"
           placeholder="Add a comment..."
+          v-model="comment"
         >
-        <button>Publish</button>
+        <button @click.prevent="addComment(post.id)">
+          Publish
+          </button>
       </div>
     </div>
   </div>
@@ -131,6 +134,11 @@ export default {
     },
     toogleComments(postId) {
       this.$store.commit('showAllComments', postId);
+    },
+    addComment(postId) {
+      console.log("comment ", this.comment);
+      this.$store.commit('addComment', { postId, comment: this.comment });
+      this.comment = "";
     },
   },
 };

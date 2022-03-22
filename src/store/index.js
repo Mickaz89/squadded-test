@@ -153,6 +153,11 @@ export default createStore({
       state.posts[index].showAllComments = !state.posts[index].showAllComments;
       console.log('show comments after' , state.posts[index].showAllComments);
     },
+    addComment: (state, params) => {
+      console.log("comment", params);
+      const index = state.posts.findIndex((element) => element.id === params.postId);
+      state.posts[index].comments.push({ username: 'Mickael', content: params.comment });
+    },
   },
   actions: {
   },
